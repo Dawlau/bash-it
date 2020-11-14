@@ -3,7 +3,7 @@ SCM_THEME_PROMPT_SUFFIX=""
 
 SCM_THEME_PROMPT_DIRTY=" ${bold_red}✗${normal}"
 SCM_THEME_PROMPT_CLEAN=" ${bold_green}✓${normal}"
-SCM_GIT_CHAR="${bold_green}±${normal}"
+#SCM_GIT_CHAR="${bold_green}±${normal}"
 SCM_SVN_CHAR="${bold_cyan}⑆${normal}"
 SCM_HG_CHAR="${bold_red}☿${normal}"
 
@@ -12,7 +12,7 @@ export MYSQL_PS1="(\u@\h) [\d]> "
 
 case $TERM in
         xterm*)
-        TITLEBAR="\[\033]0;\w\007\]"
+        TITLEBAR="\[\033]0; Bash\007\]"
         ;;
         *)
         TITLEBAR=""
@@ -72,12 +72,9 @@ my_ve(){
 
 prompt() {
 
-    my_ps_host="${green}\h${normal}";
-    # yes, these are the the same for now ...
-    my_ps_host_root="${green}\h${normal}";
-
-    my_ps_user="${bold_green}\u${normal}"
-    my_ps_root="${bold_red}\u${normal}";
+    my_ps_user="\[\033[31m\]\u\[\033[32m\]"
+    my_ps_root="\[\033[31m\]\u\[\033[32m\]";
+    bash_text="\[\033[36m\]\s\[\033[32m\]"
 
     if [ -n "$VIRTUAL_ENV" ]
     then
@@ -86,11 +83,11 @@ prompt() {
 
     # nice prompt
     case "`id -u`" in
-        0) PS1="${TITLEBAR}┌─$(my_ve)$(chroot)[$my_ps_root][$my_ps_host_root]$(modern_scm_prompt)$(__my_rvm_ruby_version)[${cyan}\w${normal}]$(is_vim_shell)
-└─▪ "
+        0) PS1="${TITLEBAR}\[\033[31m\]┌─\[\033[32m\]$(my_ve)$(chroot)\[\033[31m\][\[\033[32m\]$my_ps_user\[\033[33m\]@\[\033[32m\]$bash_text\[\033[31m\]]\[\033[32m\]$(__my_rvm_ruby_version)\[\033[31m\]-[\[\033[32m\]${green}\w${normal}\[\033[31m\]]\[\033[32m\]$(is_vim_shell)
+\[\033[31m\]└─▪\[\033[32m\] \[\033[33m\]#\[\033[32m\] "
         ;;
-        *) PS1="${TITLEBAR}┌─$(my_ve)$(chroot)[$my_ps_user][$my_ps_host]$(modern_scm_prompt)$(__my_rvm_ruby_version)[${cyan}\w${normal}]$(is_vim_shell)
-└─▪ "
+        *) PS1="${TITLEBAR}\[\033[31m\]┌─\[\033[32m\]$(my_ve)$(chroot)\[\033[31m\][\[\033[32m\]$my_ps_user\[\033[33m\]@\[\033[32m\]$bash_text\[\033[31m\]]\[\033[32m\]$(__my_rvm_ruby_version)\[\033[31m\]-[\[\033[32m\]${green}\w${normal}\[\033[31m\]]\[\033[32m\]$(is_vim_shell)
+\[\033[31m\]└─▪\[\033[32m\] \[\033[33m\]#\[\033[32m\] "
         ;;
     esac
 }
